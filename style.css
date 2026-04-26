@@ -135,5 +135,134 @@ canvas {
 .fadeOut {
   opacity: 0;
   transition: opacity 1.5s ease;
-  pointer-events: none;
+  
+}
+
+#questionScreen {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+
+  background: black;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  z-index: 999;
+}
+
+#questionBox {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+  gap: 25px;
+
+  text-align: center;
+}
+
+/* QUESTION TEXT */
+#questionText {
+  color: white;
+  font-size: 1.6rem;
+  letter-spacing: 1px;
+  max-width: 600px;
+  line-height: 1.4;
+}
+
+/* INPUT */
+#answerInput {
+  width: 320px;
+
+  background: transparent;
+  border: none;
+  border-bottom: 2px solid white;
+
+  outline: none;
+
+  color: white;
+  font-size: 1.2rem;
+  text-align: center;
+
+  padding: 10px;
+}
+
+/* BUTTON */
+#nextButton {
+  background: none;
+  border: none;
+
+  color: white;
+  font-size: 1.2rem;
+  font-family: inherit;
+
+  cursor: pointer;
+  position: relative;
+
+  letter-spacing: 1px;
+}
+
+#nextButton::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: -6px;
+
+  width: 100%;
+  height: 2px;
+  background: white;
+}
+
+#nextButton::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: -6px;
+  width: 100%;
+  height: 2px;
+  background: rgba(219, 219, 219, 0.9);
+
+  transform: scaleX(1);
+  transform-origin: left;
+  transition: transform 0.3s ease;
+}
+
+#nextButton:hover {
+  color: rgba(255,255,255,0.5);
+  transform: scale(1.05);
+}
+
+#beginMeditationButton {
+  margin-top: 20px;
+
+  background: none;
+  border: none;
+
+  font-size: 1.3rem;
+  font-family: inherit;
+  color: rgba(219, 219, 219, 0.9);
+
+  cursor: pointer;
+  position: relative;
+}
+
+#beginMeditationButton::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: -6px;
+  width: 100%;
+  height: 2px;
+  background: rgba(219, 219, 219, 0.9);
+}
+
+#questionText,
+#answerInput,
+#nextButton {
+  opacity: 1;
+  transition: opacity 0.3s ease;
 }

@@ -1,3 +1,5 @@
+
+
 import * as THREE from "https://esm.sh/three@0.160.0";
 
 import { EffectComposer } from "https://esm.sh/three@0.160.0/examples/jsm/postprocessing/EffectComposer.js";
@@ -33,8 +35,27 @@ let fadeStarted = false;
 const baseY = 0;
 const breathAmplitude = 0.45; // how much it moves (tweak this)
 
+const questionScreen = document.getElementById("questionScreen");
+questionScreen.style.display = "none";
+const questionText = document.getElementById("questionText");
+const answerInput = document.getElementById("answerInput");
+const nextButton = document.getElementById("nextButton");
+
+const questions = [
+  "What have you been stressed about?",
+  "What emotion are you hoping to let go of?",
+  "How do you want to feel right now?",
+  "What have you been hoping for in life?"
+];
+
+let answers = [];
+let currentQuestionIndex = 0;
+
+
 const introScreen = document.getElementById("introScreen");
 const beginButton = document.getElementById("beginButton");
+
+
 
 // MEDIAPIPE SETUP
 const hands = new Hands({
@@ -128,6 +149,74 @@ function getStableGesture() {
 
 //const g = getStableGesture();
 
+//BEGINNING QUESTIONS
+function showQuestion() {
+  answerInput.value = "";
+  questionText.innerText = questions[currentQuestionIndex];
+}
+
+nextButton.addEventListener("click", () => {
+  const answer = answerInput.value.trim();
+
+  if (answer === "") return;
+
+  answers.push(answer);
+  currentQuestionIndex++;
+
+  if (currentQuestionIndex < questions.length) {
+    showQuestion();
+  } else {
+    finishQuestions();
+  }
+});
+
+
+function finishQuestions() {
+
+  // switch UI into final mode instead of closing it
+  answerInput.style.display = "none";
+  nextButton.style.display = "none";
+
+  questionText.style.opacity = 0;
+
+setTimeout(() => {
+  questionText.innerText = "When you are ready...";
+  questionText.style.opacity = 1;
+}, 300);
+  // create begin meditation button
+  const beginMeditationButton = document.createElement("button");
+  beginMeditationButton.id = "beginMeditationButton";
+  beginMeditationButton.innerText = "Begin Meditation";
+
+  questionScreen.querySelector("#questionBox").appendChild(beginMeditationButton);
+
+  beginMeditationButton.addEventListener("click", () => {
+    startMeditation();
+  });
+}
+
+function startMeditation() {
+
+  // fade white in
+  whiteFade.style.opacity = 1;
+
+  setTimeout(() => {
+
+    // hide UI layer
+    questionScreen.style.display = "none";
+
+    // reset fade for later use if needed
+    fadeProgress = 0;
+    fadeStarted = false;
+    whiteFade.style.opacity = 0;
+
+    // start 3D experience
+    camera.start();
+    animate();
+
+  }, 1500); // matches fade duration
+}
+
 
 
 // THREE.JS SETUP (UNCHANGED)
@@ -218,39 +307,7 @@ const roomMaterial = new THREE.ShaderMaterial({
 
 
 
-// const material = new THREE.ShaderMaterial({
-//   uniforms: {
-//   topColor: { value: new THREE.Color(0x444444) },
-//   middleColor: { value: new THREE.Color(0x222222) },
-//   bottomColor: { value: new THREE.Color(0x000000) }
-//   },
-//   vertexShader: `
-//      varying vec3 vWorldPosition;
 
-//   void main() {
-//     vec4 worldPosition = modelMatrix * vec4(position, 1.0);
-//     vWorldPosition = worldPosition.xyz;
-
-//     gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
-//   }
-// `,
-//   fragmentShader: `
-//      varying vec3 vWorldPosition;
-
-//   uniform vec3 topColor;
-//   uniform vec3 middleColor;
-//   uniform vec3 bottomColor;
-
-//   void main() {
-//     float t = normalize(vWorldPosition).y * 0.5 + 0.5;
-
-//     vec3 color = mix(bottomColor, topColor, t);
-
-//     gl_FragColor = vec4(color, 1.0);
-//   }
-// `,
-//   side: THREE.BackSide
-// });
 const room = new THREE.Mesh(
   new THREE.SphereGeometry(5, 64, 64),
   roomMaterial
@@ -487,14 +544,23 @@ function setStateUI(state) {
 }
 
 beginButton.addEventListener("click", () => {
-  // fade out intro
   introScreen.classList.add("fadeOut");
 
-  // start experience AFTER fade
   setTimeout(() => {
     introScreen.style.display = "none";
 
-    camera.start();
-    animate();
+    // 🔥 RESET WHITE FADE
+    whiteFade.style.opacity = 0;
+    fadeProgress = 0;
+    fadeStarted = false;
+
+    // SHOW QUESTION SCREEN
+    questionScreen.style.display = "flex";
+
+    showQuestion();
   }, 1500);
 });
+
+console.log("question screen display:", questionScreen.style.display);
+console.log("questionScreen:", questionScreen);
+console.log("JS LOADED");

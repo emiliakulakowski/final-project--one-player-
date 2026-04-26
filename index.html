@@ -2,28 +2,53 @@
 <html>
 
 <head>
-    <title>Levels of Consciousness</title>
+  <title>Levels of Consciousness</title>
+  <link rel="stylesheet" href="./style.css">
 </head>
 
 <body>
-    <div id="introScreen">
-  <img id="introImage" src="intropic.jpeg" />
-  
-  <div id="introContent">
-    <h1>Levels of Consciousness</h1>
-    <button id="beginButton">Begin</button>
+
+  <!-- ================= INTRO SCREEN ================= -->
+  <div id="introScreen">
+    <img id="introImage" src="intropic.jpeg" />
+
+    <div id="introContent">
+      <h1>Levels of Consciousness</h1>
+      <button id="beginButton">Begin</button>
+    </div>
+  </div>
+
+  <!-- ================= QUESTION SCREEN ================= -->
+  <div id="questionScreen" class="hidden">
+  <div id="questionBox">
+
+    <div id="questionText"></div>
+
+    <input id="answerInput" type="text" placeholder="Type your answer..." />
+
+    <button id="nextButton">Next</button>
+
   </div>
 </div>
-    <video id="video" autoplay playsinline style="display:none;"></video>
-    <div id="stateLabel"></div>
-    <div id="instruction"></div>
-    <div id="progressBar"></div>
-    <div id="whiteFade"></div>
-     <script src="https://cdn.jsdelivr.net/npm/@mediapipe/hands/hands.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@mediapipe/camera_utils/camera_utils.js"></script>
-    <script type="module" src="final.js"></script>
-    <link rel="stylesheet" href="./style.css">
-    
+
+  <!-- ================= 3D / EXPERIENCE UI ================= -->
+  <video id="video" autoplay playsinline style="display:none;"></video>
+
+  <div id="stateLabel"></div>
+  <div id="instruction"></div>
+  <div id="progressBar"></div>
+
+  <!-- white fade overlay (must stay on TOP visually in CSS) -->
+  <div id="whiteFade"></div>
+
+  <!-- ================= SCRIPTS ================= -->
+
+  <!-- MediaPipe -->
+  <script src="https://cdn.jsdelivr.net/npm/@mediapipe/hands/hands.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@mediapipe/camera_utils/camera_utils.js"></script>
+
+  <!-- Your app -->
+  <script type="module" src="final.js"></script>
 
 </body>
 
